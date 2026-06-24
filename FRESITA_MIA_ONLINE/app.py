@@ -2,14 +2,15 @@ from flask import Flask, render_template, redirect, url_for, session, request
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
-
+import os
 app = Flask(__name__, static_folder="static")
 app.secret_key = "fresita_mia_secreta"
 
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "fresita_mia"
+app.config["MYSQL_HOST"] = os.environ.get("MYSQLHOST")
+app.config["MYSQL_USER"] = os.environ.get("MYSQLUSER")
+app.config["MYSQL_PASSWORD"] = os.environ.get("MYSQLPASSWORD")
+app.config["MYSQL_DB"] = os.environ.get("MYSQLDATABASE")
+app.config["MYSQL_PORT"] = int(os.environ.get("MYSQLPORT"))
 
 mysql = MySQL(app)
 
