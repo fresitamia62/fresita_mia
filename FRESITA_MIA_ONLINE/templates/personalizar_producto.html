@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Personalizar producto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+    <script>
+        function calcularTotal() {
+            let precioBase = Number(document.getElementById("precio_base").value);
+            let totalExtras = 0;
+
+            let tamano = document.getElementById("tamano");
+            if (tamano && tamano.value === "Grande") {
+                totalExtras += 10;
+            }
+
+            document.querySelectorAll(".extra:checked").forEach(extra => {
+                totalExtras += Number(extra.dataset.precio);
+            });
+
+            let frutas = document.querySelectorAll(".fruta:checked").length;
+            if (document.querySelectorAll(".fruta").length > 0 && frutas === 1) {
+                totalExtras += 10;
+            }
+
+            document.getElementById("total").innerText = (precioBase + totalExtras).toFixed(2);
+            document.getElementById("precio_extras").value = totalExtras;
+
+            validarToppings();
+            validarJarabes();
+            validarFrutas();
+        }
+
+        function validarToppings() {
+            let incluidos = Number(document.getElementById("toppings_incluidos").value);
+            let toppingExtra = document.getElementById("topping_extra");
+            let limite = incluidos;
+
+            if (toppingExtra && toppingExtra.checked) {
+                limite += 1;
+            }
+
+            let seccion = document.getElementById("seccion_toppings");
+            if (seccion) {
+                seccion.style.display = limite > 0 ? "block" : "none";
+            }
+
+            let toppings = document.querySelectorAll(".topping");
+            let seleccionados = document.querySelectorAll(".topping:checked").length;
+
+            toppings.forEach(topping => {
+                if (!topping.checked) {
+                    topping.disabled = seleccionados >= limite;
+                }
+            });
+
+            let mensaje = document.getElementById("mensaje_toppings");
+            if (mensaje) {
+                mensaje.innerText = "Puedes elegir exactamente " + limite + " topping(s). Seleccionados: " + seleccionados;
+            }
+        }
+
+        function validarJarabes() {
+            let limite = Number(document.getElementById("jarabes_incluidos").value);
+            let jarabes = document.querySelectorAll(".jarabe");
+            let seleccionados = document.querySelectorAll(".jarabe:checked").length;
+
+            jarabes.forEach(jarabe => {
+                if (!jarabe.checked) {
+                    jarabe.disabled = seleccionados >= limite;
+                }
+            });
+        }
+
+        function validarFrutas() {
+            let frutas = document.querySelectorAll(".fruta");
+            let seleccionadas = document.querySelectorAll(".fruta:checked").length;
+
+            frutas.forEach(fruta => {
+                if (!fruta.checked) {
+                    fruta.disabled = seleccionadas >= 2;
+                }
+            });
+        }
+
+        function validarFormulario(event) {
+            let incluidos = Number(document.getElementById("toppings_incluidos").value);
+            let jarabesIncluidos = Number(document.getElementById("jarabes_incluidos").value);
+            let toppingExtra = document.getElementById("topping_extra");
+
+            let limiteToppings = incluidos;
+            if (toppingExtra && toppingExtra.checked) {
+                limiteToppings += 1;
+            }
+
+            let toppingsSeleccionados = document.querySelectorAll(".topping:checked").length;
+            let jarabesSeleccionados = document.querySelectorAll(".jarabe:checked").length;
+            let frutasSeleccionadas = document.querySelectorAll(".fruta:checked").length;
+
+            if (limiteToppings > 0 && toppingsSeleccionados !== limiteToppings) {
+                alert("Debes elegir exactamente " + limiteToppings + " topping(s).");
+                event.preventDefault();
+                return;
+            }
+
+            if (jarabesIncluidos > 0 && jarabesSeleccionados !== jarabesIncluidos) {
+                alert("Debes elegir exactamente " + jarabesIncluidos + " jarabe(s).");
+                event.preventDefault();
+                return;
+            }
+
+            if (document.querySelectorAll(".fruta").length > 0 && frutasSeleccionadas < 1) {
+                alert("Debes elegir al menos 1 fruta.");
+                event.preventDefault();
+                return;
+            }
+        }
+
+        window.onload = function() {
+            calcularTotal();
+        }
+    </script>
+</head>
+
+<body>
+
+<section class="formulario">
+
+    <h1>🍓 Personalizar {{ producto[1] }}</h1>
+
+    <p>{{ producto[2] }}</p>
+    <h2>Precio base: ${{ producto[3] }}</h2>
+
+    <input type="hidden" id="precio_base" value="{{ producto[3] }}">
+    <input type="hidden" id="toppings_incluidos" value="{{ producto[9] }}">
+    <input type="hidden" id="jarabes_incluidos" value="{{ producto[10] }}">
+
+    <form method="POST" onsubmit="validarFormulario(event)">
+
+        {% if producto[7] == 1 %}
+            <h3>Tamaño</h3>
+            <select name="tamano" id="tamano" onchange="calcularTotal()" required>
+                <option value="Chico">Chico</option>
+                <option value="Grande">Grande (+$10)</option>
+            </select>
+        {% else %}
+            <input type="hidden" name="tamano" value="No aplica">
+        {% endif %}
+
+        {% if producto[8] == 'antojo_preparado' %}
+            <h3>Base</h3>
+            <select name="base_preparado" required>
+                <option value="Crema">Crema</option>
+                <option value="Nutella">Nutella</option>
+            </select>
+        {% elif producto[8] == 'donitas_preparadas' %}
+            <input type="hidden" name="base_preparado" value="Crema">
+            <p><strong>Base incluida:</strong> Crema</p>
+        {% else %}
+            <input type="hidden" name="base_preparado" value="No aplica">
+        {% endif %}
+
+        {% if producto[11] == 1 %}
+            <h3>Elige pastel</h3>
+
+            <select name="pastel" required>
+                {% if producto[8] == 'fresas_con_pastel' %}
+                    <option value="Cheesecake Chispas">Cheesecake Chispas</option>
+                    <option value="Cheesecake Zarzamora">Cheesecake Zarzamora</option>
+                    <option value="Chocoflan">Chocoflan</option>
+                    <option value="Pay de Limón">Pay de Limón</option>
+                    <option value="Pay Natural">Pay Natural</option>
+
+                {% elif producto[8] == 'fresas_con_pastel_especial' %}
+                    <option value="Red Velvet">Red Velvet</option>
+                    <option value="Turín Crepas">Turín Crepas</option>
+                    <option value="Coco">Coco</option>
+                    <option value="Zanahoria">Zanahoria</option>
+                    <option value="Hennessy Crepas">Hennessy Crepas</option>
+
+                {% else %}
+                    <option value="Cheesecake Chispas">Cheesecake Chispas</option>
+                    <option value="Cheesecake Zarzamora">Cheesecake Zarzamora</option>
+                    <option value="Pingüino">Pingüino</option>
+                    <option value="Chocoflan">Chocoflan</option>
+                    <option value="Turín Crepas">Turín Crepas</option>
+                    <option value="Hennessy Crepas">Hennessy Crepas</option>
+                    <option value="Red Velvet">Red Velvet</option>
+                    <option value="Coco">Coco</option>
+                    <option value="Pay de Limón">Pay de Limón</option>
+                    <option value="Matilda">Matilda</option>
+                {% endif %}
+            </select>
+        {% else %}
+            <input type="hidden" name="pastel" value="No aplica">
+        {% endif %}
+
+        {% if producto[12] == 1 %}
+            <h3>Frutas</h3>
+            <p>Puedes elegir hasta 2 frutas. Si eliges solo 1, se suman $10 extra.</p>
+
+            <input type="checkbox" class="fruta" name="frutas" value="Fresa" onclick="calcularTotal()"> Fresa <br>
+            <input type="checkbox" class="fruta" name="frutas" value="Durazno" onclick="calcularTotal()"> Durazno <br>
+            <input type="checkbox" class="fruta" name="frutas" value="Uva" onclick="calcularTotal()"> Uva <br>
+        {% endif %}
+
+        <h3>Extras</h3>
+
+        <input type="checkbox" class="extra" name="extras" value="Crema Extra" data-precio="5" onclick="calcularTotal()">
+        Crema extra (+$5) <br>
+
+        <input type="checkbox" class="extra" name="extras" value="Nutella" data-precio="10" onclick="calcularTotal()">
+        Nutella (+$10) <br>
+
+        <input type="checkbox" class="extra" id="topping_extra" name="extras" value="Topping Extra" data-precio="5" onclick="calcularTotal()">
+        Topping extra (+$5) <br>
+
+        <input type="checkbox" class="extra" name="extras" value="Mermelada" data-precio="5" onclick="calcularTotal()">
+        Mermelada (+$5) <br>
+
+        <div id="seccion_toppings">
+            <h3>Toppings</h3>
+            <p id="mensaje_toppings"></p>
+
+            <input type="checkbox" class="topping" name="toppings" value="Almendras" onclick="validarToppings()"> Almendras <br>
+            <input type="checkbox" class="topping" name="toppings" value="Chispas de chocolate" onclick="validarToppings()"> Chispas de chocolate <br>
+            <input type="checkbox" class="topping" name="toppings" value="Chispas de chocolate blanco" onclick="validarToppings()"> Chispas de chocolate blanco <br>
+            <input type="checkbox" class="topping" name="toppings" value="Arándanos" onclick="validarToppings()"> Arándanos <br>
+            <input type="checkbox" class="topping" name="toppings" value="Granola" onclick="validarToppings()"> Granola <br>
+            <input type="checkbox" class="topping" name="toppings" value="Bubulubu" onclick="validarToppings()"> Bubulubu <br>
+            <input type="checkbox" class="topping" name="toppings" value="Frutos Tropicales" onclick="validarToppings()"> Frutos Tropicales <br>
+            <input type="checkbox" class="topping" name="toppings" value="Coco Triguitos" onclick="validarToppings()"> Coco Triguitos <br>
+            <input type="checkbox" class="topping" name="toppings" value="Froot Loops" onclick="validarToppings()"> Froot Loops <br>
+            <input type="checkbox" class="topping" name="toppings" value="Nuez" onclick="validarToppings()"> Nuez <br>
+            <input type="checkbox" class="topping" name="toppings" value="Huevitos chocolate" onclick="validarToppings()"> Huevitos chocolate <br>
+            <input type="checkbox" class="topping" name="toppings" value="Lunetas" onclick="validarToppings()"> Lunetas <br>
+            <input type="checkbox" class="topping" name="toppings" value="Mazapán" onclick="validarToppings()"> Mazapán <br>
+            <input type="checkbox" class="topping" name="toppings" value="Cremino" onclick="validarToppings()"> Cremino <br>
+            <input type="checkbox" class="topping" name="toppings" value="Chocokrispis" onclick="validarToppings()"> Chocokrispis <br>
+            <input type="checkbox" class="topping" name="toppings" value="Oreo" onclick="validarToppings()"> Oreo <br>
+            <input type="checkbox" class="topping" name="toppings" value="Coco Horneado" onclick="validarToppings()"> Coco Horneado <br>
+            <input type="checkbox" class="topping" name="toppings" value="Ajonjolí Caramelizado" onclick="validarToppings()"> Ajonjolí Caramelizado <br>
+        </div>
+
+        {% if producto[10] > 0 %}
+            <h3>Jarabes</h3>
+            <p>Elige exactamente {{ producto[10] }} jarabe(s).</p>
+
+            <input type="checkbox" class="jarabe" name="jarabes" value="Chocolate" onclick="validarJarabes()"> Chocolate <br>
+            <input type="checkbox" class="jarabe" name="jarabes" value="Lechera" onclick="validarJarabes()"> Lechera <br>
+            <input type="checkbox" class="jarabe" name="jarabes" value="Dulce de leche" onclick="validarJarabes()"> Dulce de leche <br>
+            <input type="checkbox" class="jarabe" name="jarabes" value="Chocoavellana" onclick="validarJarabes()"> Chocoavellana <br>
+            <input type="checkbox" class="jarabe" name="jarabes" value="Jarabe de fresa" onclick="validarJarabes()"> Jarabe de fresa <br>
+            <input type="checkbox" class="jarabe" name="jarabes" value="Maple" onclick="validarJarabes()"> Maple <br>
+            <input type="checkbox" class="jarabe" name="jarabes" value="Crema batida" onclick="validarJarabes()"> Crema batida <br>
+        {% endif %}
+
+        <h3>Comentarios especiales</h3>
+        <textarea name="comentarios" rows="4" placeholder="Ejemplo: poca crema, sin chocolate, extra fresa..."></textarea>
+
+        <h2>Total del producto: $<span id="total">{{ producto[3] }}</span></h2>
+
+        <input type="hidden" name="precio_extras" id="precio_extras" value="0">
+
+        <button type="submit">Agregar al carrito 🛒</button>
+
+    </form>
+
+</section>
+
+</body>
+</html>

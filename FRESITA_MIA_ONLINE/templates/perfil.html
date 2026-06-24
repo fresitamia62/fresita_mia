@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil - Fresita Mía</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <section class="formulario">
+
+        <h2>Bienvenida, {{ session["usuario"] }} 🍓</h2>
+
+        <p>Desde aquí podrás ver tus pedidos y su estatus.</p>
+
+        <a href="{{ url_for('menu') }}">
+            <button>Ver menú</button>
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            <button>Cerrar sesión</button>
+        </a>
+
+        <hr>
+
+        <h2>Mis pedidos 📦</h2>
+
+        {% if pedidos %}
+
+            {% for pedido in pedidos %}
+                <div class="card-producto">
+
+                    <h3>Pedido #{{ pedido[0] }}</h3>
+
+                    <p><strong>Total:</strong> ${{ pedido[1] }}</p>
+
+                    <p>
+                        <strong>Estado:</strong>
+
+                        {% if pedido[2] == 'pendiente' %}
+                            🟡 Pendiente
+                        {% elif pedido[2] == 'preparando' %}
+                            🟠 Preparando
+                        {% elif pedido[2] == 'en_camino' %}
+                            🚚 En camino
+                        {% elif pedido[2] == 'entregado' %}
+                            ✅ Entregado
+                        {% else %}
+                            {{ pedido[2] }}
+                        {% endif %}
+                    </p>
+
+                    <p><strong>Fecha:</strong> {{ pedido[3] }}</p>
+
+                    <a href="{{ url_for('detalle_pedido', id_pedido=pedido[0]) }}">
+                        <button>Ver detalle</button>
+                    </a>
+
+                </div>
+
+                <br>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No tienes pedidos todavía.</p>
+
+        {% endif %}
+
+    </section>
+
+</body>
+</html>

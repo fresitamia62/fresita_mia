@@ -1,0 +1,19 @@
+<form method="POST">
+    <input type="text" name="nombre" placeholder="Nombre completo" required>
+    <input type="tel" name="telefono" placeholder="Teléfono" required>
+
+    <select name="tipo_entrega" required>
+        <option value="Domicilio">Entrega a domicilio</option>
+        <option value="Recoger en local">Recoger en local</option>
+    </select>
+
+    <input type="text" name="direccion" placeholder="Dirección completa">
+
+    <select name="metodo_pago" required>
+        <option value="Efectivo">Pago en efectivo</option>
+        <option value="Transferencia">Transferencia</option>
+    </select>
+
+
+    <button type="submit">Confirmar pedido</button>
+</form>

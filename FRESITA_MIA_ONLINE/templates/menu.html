@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú - Fresita Mía</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <header class="menu-hero">
+    <h1>Menú Fresita Mía 🍓</h1>
+    <p>Elige tu antojo favorito y personalízalo a tu gusto</p>
+    </header>
+    {% for categoria, productos in productos_por_categoria.items() %}
+
+        <h2 class="titulo-categoria">{{ categoria }}</h2>
+
+        <section class="productos">
+            {% for producto in productos %}
+                <div class="card-producto">
+
+                    <img src="{{ url_for('static', filename='Imagenes/' + producto[4]) }}"
+                         alt="{{ producto[1] }}"
+                         class="imagen-producto">
+
+                    <h3>{{ producto[1] }}</h3>
+
+                    <p>{{ producto[2] }}</p>
+
+                    <p>
+                        <strong>Desde ${{ producto[3] }}</strong>
+                    </p>
+
+                    {% if producto[8] == 'ninguna' %}
+                        <a href="{{ url_for('agregar_carrito', id_producto=producto[0]) }}">
+                            <button>Agregar al carrito</button>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('personalizar_producto', id_producto=producto[0]) }}">
+                            <button>Personalizar</button>
+                        </a>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </section>
+
+    {% endfor %}
+
+    <div class="botones-menu">
+        <a href="{{ url_for('ver_carrito') }}">
+            <button>Ver carrito 🛒</button>
+        </a>
+
+        <a href="{{ url_for('consultar_pedido') }}">
+            <button>Consultar mi pedido</button>
+        </a>
+    </div>
+
+</body>
+</html>

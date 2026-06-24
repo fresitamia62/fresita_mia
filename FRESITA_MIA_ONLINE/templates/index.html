@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresita Mía Online</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+
+<body class="pagina-inicio">
+
+<header class="inicio-header">
+    <img src="{{ url_for('static', filename='imagenes/FRESITA_MIA_LOGO.png') }}" alt="Fresita Mía" class="logo-inicio">
+
+    <nav class="menu-inicio">
+        <a href="/">Inicio</a>
+        <a href="/menu">Menú</a>
+        <a href="/ver_carrito">Mis pedidos</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+</header>
+
+<section class="hero-inicio">
+    <div class="hero-texto">
+        <h1>Hecho con amor<br>para ti ♡</h1>
+
+        <p>
+            Los postres más deliciosos de Villagrán, preparados con fresas frescas
+            y los mejores ingredientes.
+        </p>
+
+        <a href="/menu" class="btn-principal">Ver menú 🍓</a>
+    </div>
+</section>
+
+<section class="beneficios">
+    <div>
+        <h3>🍓 Fresas frescas</h3>
+        <p>Seleccionadas cada día para ti.</p>
+    </div>
+
+    <div>
+        <h3>🍰 Recetas únicas</h3>
+        <p>Postres artesanales hechos con amor.</p>
+    </div>
+
+    <div>
+        <h3>🛵 Entrega rápida</h3>
+        <p>Recibe tus pedidos en el menor tiempo.</p>
+    </div>
+
+    <div>
+        <h3>♡ Hecho con amor</h3>
+        <p>Cada postre lleva un toque especial.</p>
+    </div>
+</section>
+
+<section class="categorias-inicio">
+    <h2>Categorías 🍓</h2>
+
+    <div class="grid-categorias">
+        <div class="categoria-card">
+            <img src="{{ url_for('static', filename='imagenes/Tradicionales.jpeg') }}" alt="Fresas tradicionales">
+            <h3>Fresas Tradicionales</h3>
+            <a href="/menu">Ver productos</a>
+        </div>
+
+        <div class="categoria-card">
+            <img src="{{ url_for('static', filename='imagenes/Rebanafresa.jpeg') }}" alt="Rebanafresa">
+            <h3>Rebanafresa</h3>
+            <a href="/menu">Ver productos</a>
+        </div>
+
+        <div class="categoria-card">
+            <img src="{{ url_for('static', filename='imagenes/mini hot cakes.jpeg') }}" alt="Mini Hotcakes">
+            <h3>Mini Hotcakes</h3>
+            <a href="/menu">Ver productos</a>
+        </div>
+
+        <div class="categoria-card">
+            <img src="{{ url_for('static', filename='imagenes/Litro.jpeg') }}" alt="Fresas Combinadas">
+            <h3>Fresas Combinadas</h3>
+            <a href="/menu">Ver productos</a>
+        </div>
+
+        <div class="categoria-card">
+            <img src="{{ url_for('static', filename='imagenes/Bowl crujiente.jpeg') }}" alt="Mega Antojo">
+            <h3>Mega Antojo</h3>
+            <a href="/menu">Ver productos</a>
+        </div>
+
+        <div class="categoria-card">
+            <img src="{{ url_for('static', filename='imagenes/Donitas preparadas.jpeg') }}" alt="Antojos">
+            <h3>Antojos</h3>
+            <a href="/menu">Ver productos</a>
+        </div>
+
+        <div class="categoria-card">
+            <img src="{{ url_for('static', filename='imagenes/Pastel matilda.jpeg') }}" alt="Pasteles">
+            <h3>Pasteles</h3>
+            <a href="/menu">Ver productos</a>
+        </div>
+    </div>
+</section>
+
+<section class="favoritos">
+    <h2>Los más pedidos 🍓</h2>
+
+    <div class="favoritos-grid">
+        <div class="favorito">
+            <span class="etiqueta">★ Más vendido</span>
+            <img src="{{ url_for('static', filename='imagenes/Raffaello.jpeg') }}">
+            <div class="info-producto">
+                <h3>Raffaello</h3>
+                <p>Fresas con crema especial y toppings.</p>
+                <strong>$75.00</strong>
+            </div>
+        </div>
+
+        <div class="favorito">
+            <span class="etiqueta">★ Favorito</span>
+            <img src="{{ url_for('static', filename='imagenes/Lotus.jpeg') }}">
+            <div class="info-producto">
+                <h3>Lotus</h3>
+                <p>Postre cremoso con un sabor irresistible.</p>
+                <strong>$90.00</strong>
+            </div>
+        </div>
+
+        <div class="favorito">
+            <span class="etiqueta">★ Recomendado</span>
+            <img src="{{ url_for('static', filename='imagenes/Moreliana.jpeg') }}">
+            <div class="info-producto">
+                <h3>Morelianas</h3>
+                <p>Fresas preparadas con mucho amor.</p>
+                <strong>$95.00</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="whatsapp-box">
+    <div>
+        <h2>¿Quieres hacer un pedido personalizado?</h2>
+        <p>Escríbenos por WhatsApp y con gusto te atendemos.</p>
+    </div>
+
+    <a href="https://wa.me/524111159385" target="_blank">Enviar mensaje</a>
+</section>
+
+<footer class="footer-fresita">
+
+    <div class="footer-columna">
+        <img src="{{ url_for('static', filename='imagenes/FRESITA_MIA_LOGO.png') }}"
+             class="logo-footer">
+
+        <p>Gracias por elegirnos ♡</p>
+    </div>
+
+    <div class="footer-columna">
+        <h3>Enlaces rápidos</h3>
+
+        <a href="/">Inicio</a>
+        <a href="/menu">Menú</a>
+        <a href="/ver_carrito">Mis pedidos</a>
+        <a href="#contacto">Contacto</a>
+    </div>
+
+    <div class="footer-columna">
+        <h3>Contáctanos</h3>
+
+        <p>📞 411 115 9385</p>
+        <p>📘 @fresita_mia</p>
+        <p>📷 @fresita_mia</p>
+        <p>📍 Fracc. Punta, Diamante 106A Villagrán, Guanajuato</p>
+    </div>
+
+    <div class="footer-columna">
+        <h3>Síguenos</h3>
+
+        <div class="redes">
+            <a href="#">📘</a>
+            <a href="#">📷</a>
+        </div>
+
+        <h2 class="amor">
+            Hecho con amor<br>
+            para ti ♡
+        </h2>
+    </div>
+
+</footer>
+
+<div class="copyright">
+    © 2025 Fresita Mía. Todos los derechos reservados.
+</div>
+</body>
+</html>

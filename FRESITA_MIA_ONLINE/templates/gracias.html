@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gracias - Fresita Mía</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <section class="formulario">
+        <h1>🍓 ¡Gracias por tu compra!</h1>
+
+        <p>Tu pedido fue registrado correctamente.</p>
+
+        <h2>Pedido #{{ id_pedido }}</h2>
+
+        <p>
+            Guarda este número de pedido para consultar el estado de tu compra.
+        </p>
+
+        <a href="{{ url_for('consultar_pedido') }}">
+            <button>Consultar mi pedido</button>
+        </a>
+
+        <a href="{{ url_for('menu') }}">
+            <button>Volver al menú</button>
+        </a>
+    </section>
+
+</body>
+</html>

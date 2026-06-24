@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito - Fresita Mía</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <header class="menu-hero">
+        <h1>Mi carrito 🛒</h1>
+        <p>Revisa tus productos antes de finalizar tu pedido</p>
+    </header>
+
+    {% if productos_carrito %}
+
+        <section class="carrito-contenedor">
+            {% for producto in productos_carrito %}
+                <div class="card-carrito">
+                    <h3>{{ producto[1] }}</h3>
+
+                    <p><strong>Precio base:</strong> ${{ producto[2] }}</p>
+
+                    {% if producto[5] and producto[5] != 'No aplica' %}
+                        <p><strong>Tamaño:</strong> {{ producto[5] }}</p>
+                    {% endif %}
+
+                    {% if producto[6] and producto[6] != 'No aplica' %}
+                        <p><strong>Toppings:</strong> {{ producto[6] }}</p>
+                    {% endif %}
+
+                    {% if producto[7] and producto[7] != 'No aplica' %}
+                        <p><strong>Jarabes:</strong> {{ producto[7] }}</p>
+                    {% endif %}
+
+                    {% if producto[8] and producto[8] != 'No aplica' %}
+                        <p><strong>Extras:</strong> {{ producto[8] }}</p>
+                    {% endif %}
+
+                    {% if producto[10] and producto[10] != 'No aplica' %}
+                        <p><strong>Pastel:</strong> {{ producto[10] }}</p>
+                    {% endif %}
+
+                    {% if producto[11] and producto[11] != 'No aplica' %}
+                        <p><strong>Frutas:</strong> {{ producto[11] }}</p>
+                    {% endif %}
+
+                    {% if producto[12] and producto[12] != 'No aplica' %}
+                        <p><strong>Base:</strong> {{ producto[12] }}</p>
+                    {% endif %}
+
+                    {% if producto[13] %}
+                        <p><strong>Comentarios:</strong> {{ producto[13] }}</p>
+                    {% endif %}
+
+                    {% if producto[9] and producto[9] != 0 %}
+                        <p><strong>Extras:</strong> ${{ producto[9] }}</p>
+                    {% endif %}
+
+                    <div class="cantidad-carrito">
+                        <span>Cantidad:</span>
+
+                        <a href="{{ url_for('disminuir_cantidad', id_detalle=producto[0]) }}">
+                            <button>-</button>
+                        </a>
+
+                        <strong>{{ producto[3] }}</strong>
+
+                        <a href="{{ url_for('aumentar_cantidad', id_detalle=producto[0]) }}">
+                            <button>+</button>
+                        </a>
+                    </div>
+
+                    <p class="total-producto">
+                        Total producto: ${{ producto[4] }}
+                    </p>
+
+                    <a href="{{ url_for('eliminar_producto', id_detalle=producto[0]) }}">
+                        <button class="btn-eliminar">Eliminar</button>
+                    </a>
+                </div>
+            {% endfor %}
+        </section>
+
+        <section class="resumen-carrito">
+            <h2>Total a pagar: ${{ total }}</h2>
+
+            <a href="{{ url_for('vaciar_carrito') }}">
+                <button class="btn-secundario">Vaciar carrito</button>
+            </a>
+
+            <a href="{{ url_for('finalizar_compra') }}">
+                <button class="btn-principal">Finalizar compra</button>
+            </a>
+        </section>
+
+    {% else %}
+
+        <section class="carrito-vacio">
+            <h2>Tu carrito está vacío 🍓</h2>
+            <p>Agrega tus productos favoritos para comenzar tu pedido.</p>
+        </section>
+
+    {% endif %}
+
+    <div class="botones-menu">
+        <a href="{{ url_for('menu') }}">
+            <button>Seguir comprando</button>
+        </a>
+    </div>
+
+</body>
+</html>

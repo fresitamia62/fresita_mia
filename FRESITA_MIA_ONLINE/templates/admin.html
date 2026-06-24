@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración - Fresita Mía</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+<header class="menu-hero">
+    <h1>Panel de Administración 🍓</h1>
+    <p>Control de pedidos y estadísticas de Fresita Mía</p>
+</header>
+
+<section class="estadisticas">
+    <div class="tarjeta-estadistica">
+        <h3>Ventas del día</h3>
+        <p>${{ ventas_hoy }}</p>
+    </div>
+
+    <div class="tarjeta-estadistica">
+        <h3>Pedidos de hoy</h3>
+        <p>{{ pedidos_hoy }}</p>
+    </div>
+
+    <div class="tarjeta-estadistica">
+        <h3>Más vendido</h3>
+        <p>
+            {% if producto_mas_vendido %}
+                {{ producto_mas_vendido[0] }}
+            {% else %}
+                Sin ventas
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<h2 class="titulo-categoria">Pedidos recientes</h2>
+
+<div class="tabla-admin">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Teléfono</th>
+            <th>Entrega</th>
+            <th>Dirección</th>
+            <th>Pago</th>
+            <th>Comentarios</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Actualizar</th>
+            <th>Detalle</th>
+        </tr>
+
+        {% for pedido in pedidos %}
+        <tr>
+            <td>{{ pedido[0] }}</td>
+            <td>{{ pedido[1] }}</td>
+            <td>{{ pedido[2] }}</td>
+            <td>{{ pedido[3] }}</td>
+            <td>{{ pedido[4] }}</td>
+            <td>{{ pedido[5] }}</td>
+            <td>{{ pedido[6] }}</td>
+            <td>${{ pedido[7] }}</td>
+            <td>{{ pedido[8] }}</td>
+            <td>{{ pedido[9] }}</td>
+
+            <td>
+                <form action="{{ url_for('actualizar_estado', id_pedido=pedido[0]) }}" method="POST">
+                    <select name="estado">
+                        <option value="pendiente" {% if pedido[8] == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                        <option value="en preparación" {% if pedido[8] == 'en preparación' %}selected{% endif %}>En preparación</option>
+                        <option value="listo" {% if pedido[8] == 'listo' %}selected{% endif %}>Listo</option>
+                        <option value="entregado" {% if pedido[8] == 'entregado' %}selected{% endif %}>Entregado</option>
+                        <option value="cancelado" {% if pedido[8] == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                    </select>
+
+                    <br><br>
+
+                    <button type="submit">Guardar</button>
+                </form>
+            </td>
+
+            <td>
+                <a class="detalle" href="{{ url_for('detalle_pedido', id_pedido=pedido[0]) }}">
+                    Ver detalle
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="links">
+    <a href="/">🏠 Inicio</a>
+    <a href="/logout">🚪 Cerrar sesión</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultar pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <section class="formulario">
+        <h1>Consultar pedido 📦</h1><header class="menu-hero">
+    <h1>Consultar pedido 🍓</h1>
+    <p>Revisa el estado de tu pedido fácilmente</p>
+    </header>
+
+        <form method="POST">
+            <label>Número de pedido:</label>
+            <input type="number" name="id_pedido" required>
+
+            <br><br>
+
+            <label>Teléfono:</label>
+            <input type="text" name="telefono" required>
+
+            <br><br>
+
+            <button type="submit">Buscar pedido</button>
+        </form>
+
+        {% if pedido %}
+            <hr>
+
+            <h2>Pedido #{{ pedido[0] }}</h2>
+            <p><strong>Cliente:</strong> {{ pedido[1] }}</p>
+            <p><strong>Total:</strong> ${{ pedido[2] }}</p>
+
+            <p><strong>Estado:</strong>
+                {% if pedido[3] == 'pendiente' %}
+                    🟡 Pendiente
+                {% elif pedido[3] == 'en preparación' %}
+                    🟠 En preparación
+                {% elif pedido[3] == 'listo' %}
+                    🟢 Listo
+                {% elif pedido[3] == 'entregado' %}
+                    ✅ Entregado
+                {% elif pedido[3] == 'cancelado' %}
+                    🔴 Cancelado
+                {% else %}
+                    {{ pedido[3] }}
+                {% endif %}
+            </p>
+
+            <p><strong>Fecha:</strong> {{ pedido[4] }}</p>
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('menu') }}">
+            <button>Volver al menú</button>
+        </a>
+    </section>
+
+</body>
+</html>

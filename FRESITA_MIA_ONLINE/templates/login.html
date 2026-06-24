@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Fresita Mía</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+    <section class="formulario">
+        <h2>Iniciar sesión</h2>
+
+        <form method="POST">
+            <input type="text" name="usuario" placeholder="Nombre de usuario" required>
+            <input type="password" name="contraseña" placeholder="Contraseña" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <p>¿No tienes cuenta? <a href="{{ url_for('registro') }}">Crea una aquí</a></p>
+    </section>
+
+</body>
+</html>

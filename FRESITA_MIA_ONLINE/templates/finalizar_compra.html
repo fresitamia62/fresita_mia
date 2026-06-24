@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Finalizar compra - Fresita Mía</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+    <script>
+        function calcularEnvio() {
+            let totalProductos = Number(document.getElementById("total_productos").value);
+            let zona = document.getElementById("tipo_entrega");
+            let costoEnvio = Number(zona.options[zona.selectedIndex].dataset.costo);
+
+            document.getElementById("costo_envio_texto").innerText = costoEnvio.toFixed(2);
+            document.getElementById("total_final_texto").innerText = (totalProductos + costoEnvio).toFixed(2);
+
+            if (zona.value === "Otros") {
+                document.getElementById("nota_envio").innerText = "La tarifa será confirmada por WhatsApp.";
+            } else {
+                document.getElementById("nota_envio").innerText = "";
+            }
+        }
+    </script>
+</head>
+<body>
+
+<section class="formulario">
+    <h2>Finalizar compra 🍓</h2>
+
+    <form method="POST">
+        <input type="text" name="nombre" placeholder="Nombre completo" required>
+        <input type="text" name="telefono" placeholder="Teléfono" required>
+
+        <select name="tipo_entrega" id="tipo_entrega" onchange="calcularEnvio()" required>
+            <option value="Recoger en local" data-costo="0">Recoger en local ($0)</option>
+            <option value="Zona Centro" data-costo="15">Zona Centro ($15)</option>
+            <option value="Fraccionamientos" data-costo="15">Fraccionamientos ($15)</option>
+            <option value="Deportiva, Independencia, Planetaria" data-costo="15">Deportiva, Independencia, Planetaria ($15)</option>
+            <option value="Revolución, San Juanita, San José" data-costo="20">Revolución, San Juanita, San José ($20)</option>
+            <option value="Praderas" data-costo="30">Praderas ($30)</option>
+            <option value="Otros" data-costo="0">Otros, se cotiza</option>
+        </select>
+
+        <textarea name="direccion" placeholder="Dirección de entrega o referencia" required></textarea>
+
+        <select name="metodo_pago" required>
+            <option value="">Selecciona método de pago</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia</option>
+        </select>
+
+        <input type="hidden" id="total_productos" value="{{ total }}">
+
+        <p><strong>Total productos:</strong> ${{ total }}</p>
+        <p><strong>Costo de envío:</strong> $<span id="costo_envio_texto">0.00</span></p>
+        <p id="nota_envio"></p>
+
+        <h3>Total final: $<span id="total_final_texto">{{ total }}</span></h3>
+
+        <button type="submit">Confirmar pedido</button>
+    </form>
+
+    <br>
+
+    <a href="{{ url_for('ver_carrito') }}">
+        <button>Volver al carrito</button>
+    </a>
+</section>
+
+<script>
+    calcularEnvio();
+</script>
+
+</body>
+</html>
