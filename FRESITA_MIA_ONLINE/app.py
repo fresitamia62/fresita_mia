@@ -1,12 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, session, request, send_file
+from flask import Flask, render_template, redirect, url_for, session, request
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 import os
-import pandas as pd
-from io import BytesIO
-from datetime import date
-
 app = Flask(__name__, static_folder="static")
 app.secret_key = "fresita_mia_secreta"
 
@@ -61,6 +57,7 @@ def menu():
     cursor = mysql.connection.cursor()
     cursor.execute("""
         SELECT * FROM productos
+        WHERE estado = 'disponible'
         ORDER BY nombre
     """)
     productos = cursor.fetchall()
@@ -484,7 +481,6 @@ def admin():
                estado,
                fecha_pedido
         FROM pedidos
-        WHERE cerrado = 0
         ORDER BY id_pedido DESC
     """)
 
@@ -498,103 +494,6 @@ def admin():
         pedidos_hoy=pedidos_hoy,
         producto_mas_vendido=producto_mas_vendido,
         top_productos=top_productos
-    )
-
-
-@app.route("/admin/productos")
-def admin_productos():
-    if "rol" not in session or session["rol"] != "admin":
-        return redirect(url_for("login"))
-
-    cursor = mysql.connection.cursor()
-    cursor.execute("""
-        SELECT id_producto, nombre, descripcion, precio, imagen, estado, categoria
-        FROM productos
-        ORDER BY categoria, nombre
-    """)
-    productos = cursor.fetchall()
-    cursor.close()
-
-    return render_template("admin_productos.html", productos=productos)
-
-
-@app.route("/admin/cambiar_estado_producto/<int:id_producto>")
-def cambiar_estado_producto(id_producto):
-    if "rol" not in session or session["rol"] != "admin":
-        return redirect(url_for("login"))
-
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT estado FROM productos WHERE id_producto = %s", (id_producto,))
-    producto = cursor.fetchone()
-
-    if producto:
-        estado_actual = producto[0]
-        nuevo_estado = "agotado" if estado_actual == "disponible" else "disponible"
-
-        cursor.execute("""
-            UPDATE productos
-            SET estado = %s
-            WHERE id_producto = %s
-        """, (nuevo_estado, id_producto))
-
-        mysql.connection.commit()
-
-    cursor.close()
-    return redirect(url_for("admin_productos"))
-
-
-@app.route("/admin/cerrar_dia")
-def cerrar_dia():
-    if "rol" not in session or session["rol"] != "admin":
-        return redirect(url_for("login"))
-
-    cursor = mysql.connection.cursor()
-    cursor.execute("""
-        UPDATE pedidos
-        SET cerrado = 1
-        WHERE DATE(fecha_pedido) = CURDATE()
-    """)
-    mysql.connection.commit()
-    cursor.close()
-
-    return redirect(url_for("admin"))
-
-
-@app.route("/admin/exportar_pedidos_hoy")
-def exportar_pedidos_hoy():
-    if "rol" not in session or session["rol"] != "admin":
-        return redirect(url_for("login"))
-
-    cursor = mysql.connection.cursor()
-    cursor.execute("""
-        SELECT id_pedido, nombre_cliente, telefono, tipo_entrega, direccion,
-               metodo_pago, comentarios, costo_envio, total, estado, fecha_pedido
-        FROM pedidos
-        WHERE DATE(fecha_pedido) = CURDATE()
-        ORDER BY id_pedido ASC
-    """)
-    pedidos = cursor.fetchall()
-    cursor.close()
-
-    columnas = [
-        "ID Pedido", "Cliente", "Teléfono", "Entrega", "Dirección",
-        "Método de pago", "Comentarios", "Costo envío", "Total",
-        "Estado", "Fecha"
-    ]
-
-    df = pd.DataFrame(pedidos, columns=columnas)
-
-    archivo = BytesIO()
-    with pd.ExcelWriter(archivo, engine="openpyxl") as writer:
-        df.to_excel(writer, index=False, sheet_name="Pedidos de hoy")
-
-    archivo.seek(0)
-
-    return send_file(
-        archivo,
-        as_attachment=True,
-        download_name=f"pedidos_hoy_{date.today()}.xlsx",
-        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
 
