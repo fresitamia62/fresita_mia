@@ -605,6 +605,12 @@ def personalizar_producto(id_producto):
 
         id_carrito, id_usuario, invitado_id = obtener_carrito(cursor)
 
+        cursor.execute("SELECT * FROM productos WHERE id_producto = %s AND disponible = 1", (id_producto,))
+         producto = cursor.fetchone()
+
+if not producto:
+    return "Producto no disponible", 404 
+
         cursor.execute("""
             INSERT INTO detalle_carrito 
             (id_carrito, id_producto, cantidad, tamano, toppings, jarabes, extras, precio_extras, comentarios, pastel, frutas, base_preparado)
