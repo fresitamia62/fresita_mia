@@ -73,28 +73,18 @@ def menu():
     "Pasteles"
 ]
 
-    productos_por_categoria = {}
+    cursor.execute("SELECT * FROM productos WHERE disponible = 1")
+productos = cursor.fetchall()
 
-    # Primero agrega las categorías principales
-    for categoria in orden_categorias:
+productos_por_categoria = {}
+
+for p in productos:
+    categoria = p[5]  # ajusta si tu categoría está en otro índice
+
+    if categoria not in productos_por_categoria:
         productos_por_categoria[categoria] = []
 
-    # Después acomoda cada producto en su categoría
-    for producto in productos:
-        categoria = producto[6]
-
-        if categoria not in productos_por_categoria:
-            productos_por_categoria[categoria] = []
-
-        productos_por_categoria[categoria].append(producto)
-
-    # Elimina categorías vacías
-    productos_por_categoria = {
-        categoria: lista
-        for categoria, lista in productos_por_categoria.items()
-        if lista
-    }
-
+    productos_por_categoria[categoria].append(p)
     return render_template("menu.html", productos_por_categoria=productos_por_categoria)
 
 @app.route("/registro", methods=["GET", "POST"])
