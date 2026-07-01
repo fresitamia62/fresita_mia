@@ -76,15 +76,27 @@ def menu():
     cursor.execute("SELECT * FROM productos WHERE disponible = 1")
 productos = cursor.fetchall()
 
-productos_por_categoria = {}
+  productos_por_categoria = {}
 
-for p in productos:
-    categoria = p[5]  # ajusta si tu categoría está en otro índice
-
-    if categoria not in productos_por_categoria:
+    # Primero agrega las categorías principales
+    for categoria in orden_categorias:
         productos_por_categoria[categoria] = []
 
-    productos_por_categoria[categoria].append(p)
+    # Después acomoda cada producto en su categoría
+    for producto in productos:
+        categoria = producto[6]
+
+        if categoria not in productos_por_categoria:
+            productos_por_categoria[categoria] = []
+
+        productos_por_categoria[categoria].append(producto)
+
+    # Elimina categorías vacías
+    productos_por_categoria = {
+        categoria: lista
+        for categoria, lista in productos_por_categoria.items()
+        if lista
+    }
     return render_template("menu.html", productos_por_categoria=productos_por_categoria)
 
 @app.route("/registro", methods=["GET", "POST"])
@@ -552,15 +564,20 @@ def detalle_pedido(id_pedido):
         id_pedido=id_pedido
     )
 
-
 @app.route("/personalizar_producto/<int:id_producto>", methods=["GET", "POST"])
 def personalizar_producto(id_producto):
     cursor = mysql.connection.cursor()
 
-    cursor.execute("SELECT * FROM productos WHERE id_producto = %s", (id_producto,))
+    # Obtener producto UNA sola vez
+    cursor.execute("SELECT * FROM productos WHERE id_producto = %s AND disponible = 1", (id_producto,))
     producto = cursor.fetchone()
 
+    if not producto:
+        cursor.close()
+        return "Producto no disponible", 404
+
     if request.method == "POST":
+
         nombre_producto = producto[1]
 
         tamano = request.form.get("tamano", "No aplica")
@@ -570,36 +587,20 @@ def personalizar_producto(id_producto):
         pastel = request.form.get("pastel", "No aplica")
         frutas = ", ".join(request.form.getlist("frutas"))
         base_preparado = request.form.get("base_preparado", "No aplica")
-        precio_extras = request.form.get("precio_extras", 0)
+        precio_extras = float(request.form.get("precio_extras", 0))
         comentarios = request.form.get("comentarios", "")
 
-        # Caso especial: Rebana Fresa
+        # Reglas especiales
         if nombre_producto == "Rebanafresa":
-            tamano = "No aplica"
-            toppings = "No aplica"
-            jarabes = "No aplica"
-            extras = "No aplica"
-            frutas = "No aplica"
-            base_preparado = "No aplica"
+            tamano = toppings = jarabes = extras = frutas = base_preparado = "No aplica"
             comentarios = "Pastel elegido: " + pastel
 
-        # Caso especial: Rebana Fresa Especial
         elif nombre_producto == "Rebanafresa Especial":
-            tamano = "No aplica"
-            toppings = "aplica"
-            jarabes = "aplica"
-            extras = "aplica"
             frutas = "No aplica"
             base_preparado = "No aplica"
             comentarios = "Pastel elegido: " + pastel
 
         id_carrito, id_usuario, invitado_id = obtener_carrito(cursor)
-
-        cursor.execute("SELECT * FROM productos WHERE id_producto = %s AND disponible = 1", (id_producto,))
-         producto = cursor.fetchone()
-
-if not producto:
-    return "Producto no disponible", 404 
 
         cursor.execute("""
             INSERT INTO detalle_carrito 
@@ -626,7 +627,6 @@ if not producto:
 
     cursor.close()
     return render_template("personalizar_producto.html", producto=producto)
-
 @app.route("/consultar_pedido", methods=["GET", "POST"])
 def consultar_pedido():
     pedido = None
