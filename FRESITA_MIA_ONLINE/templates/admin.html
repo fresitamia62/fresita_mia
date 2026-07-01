@@ -5,98 +5,224 @@
     <title>Panel de Administración - Fresita Mía</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
+
 <body>
 
-<header class="menu-hero">
-    <h1>Panel de Administración 🍓</h1>
-    <p>Control de pedidos y estadísticas de Fresita Mía</p>
-</header>
+<div class="contenedor-admin">
 
-<section class="estadisticas">
-    <div class="tarjeta-estadistica">
-        <h3>Ventas del día</h3>
-        <p>${{ ventas_hoy }}</p>
-    </div>
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
 
-    <div class="tarjeta-estadistica">
-        <h3>Pedidos de hoy</h3>
-        <p>{{ pedidos_hoy }}</p>
-    </div>
+        <h2>🍓 Fresita Mía</h2>
 
-    <div class="tarjeta-estadistica">
-        <h3>Más vendido</h3>
-        <p>
-            {% if producto_mas_vendido %}
-                {{ producto_mas_vendido[0] }}
-            {% else %}
-                Sin ventas
-            {% endif %}
-        </p>
-    </div>
-</section>
+        <a href="#">🏠 Dashboard</a>
+        <a href="#">📦 Pedidos</a>
+        <a href="#">🍰 Productos <small>(Próximamente)</small></a>
+        <a href="#">📈 Reportes <small>(Próximamente)</small></a>
 
-<h2 class="titulo-categoria">Pedidos recientes</h2>
+        <hr>
 
-<div class="tabla-admin">
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Teléfono</th>
-            <th>Entrega</th>
-            <th>Dirección</th>
-            <th>Pago</th>
-            <th>Comentarios</th>
-            <th>Total</th>
-            <th>Estado</th>
-            <th>Fecha</th>
-            <th>Actualizar</th>
-            <th>Detalle</th>
-        </tr>
+        <a href="/">🌐 Ver Página</a>
 
-        {% for pedido in pedidos %}
-        <tr>
-            <td>{{ pedido[0] }}</td>
-            <td>{{ pedido[1] }}</td>
-            <td>{{ pedido[2] }}</td>
-            <td>{{ pedido[3] }}</td>
-            <td>{{ pedido[4] }}</td>
-            <td>{{ pedido[5] }}</td>
-            <td>{{ pedido[6] }}</td>
-            <td>${{ pedido[7] }}</td>
-            <td>{{ pedido[8] }}</td>
-            <td>{{ pedido[9] }}</td>
+        <a href="/logout">
+            🚪 Cerrar sesión
+        </a>
 
-            <td>
-                <form action="{{ url_for('actualizar_estado', id_pedido=pedido[0]) }}" method="POST">
-                    <select name="estado">
-                        <option value="pendiente" {% if pedido[8] == 'pendiente' %}selected{% endif %}>Pendiente</option>
-                        <option value="en preparación" {% if pedido[8] == 'en preparación' %}selected{% endif %}>En preparación</option>
-                        <option value="listo" {% if pedido[8] == 'listo' %}selected{% endif %}>Listo</option>
-                        <option value="entregado" {% if pedido[8] == 'entregado' %}selected{% endif %}>Entregado</option>
-                        <option value="cancelado" {% if pedido[8] == 'cancelado' %}selected{% endif %}>Cancelado</option>
-                    </select>
+    </aside>
 
-                    <br><br>
 
-                    <button type="submit">Guardar</button>
-                </form>
-            </td>
+    <!-- CONTENIDO -->
+    <main class="contenido">
 
-            <td>
-                <a class="detalle" href="{{ url_for('detalle_pedido', id_pedido=pedido[0]) }}">
-                    Ver detalle
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+        <header class="encabezado-admin">
 
-<div class="links">
-    <a href="/">🏠 Inicio</a>
-    <a href="/logout">🚪 Cerrar sesión</a>
+            <div>
+
+                <h1>Panel de Administración</h1>
+
+                <p>Bienvenida al panel de Fresita Mía 🍓</p>
+
+            </div>
+
+        </header>
+
+
+        <!-- TARJETAS -->
+
+        <section class="dashboard">
+
+            <div class="card-dashboard">
+
+                <h3>💰 Ventas del día</h3>
+
+                <span>${{ ventas_hoy }}</span>
+
+            </div>
+
+            <div class="card-dashboard">
+
+                <h3>📦 Pedidos de hoy</h3>
+
+                <span>{{ pedidos_hoy }}</span>
+
+            </div>
+
+            <div class="card-dashboard">
+
+                <h3>⭐ Más vendido</h3>
+
+                {% if producto_mas_vendido %}
+                    <span>{{ producto_mas_vendido[0] }}</span>
+                {% else %}
+                    <span>Sin ventas</span>
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- BOTONES -->
+
+        <section class="acciones-rapidas">
+
+            <button class="btn-verde">
+                📥 Exportar Excel
+            </button>
+
+            <button class="btn-rojo">
+                🗑 Vaciar pedidos
+            </button>
+
+        </section>
+
+
+        <!-- TABLA -->
+
+        <h2 class="titulo-tabla">
+            Pedidos recientes
+        </h2>
+
+
+        <div class="tabla-admin">
+
+            <table>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Cliente</th>
+
+                    <th>Teléfono</th>
+
+                    <th>Entrega</th>
+
+                    <th>Dirección</th>
+
+                    <th>Pago</th>
+
+                    <th>Comentarios</th>
+
+                    <th>Total</th>
+
+                    <th>Estado</th>
+
+                    <th>Fecha</th>
+
+                    <th>Actualizar</th>
+
+                    <th>Detalle</th>
+
+                </tr>
+
+
+                {% for pedido in pedidos %}
+
+                <tr>
+
+                    <td>{{ pedido[0] }}</td>
+
+                    <td>{{ pedido[1] }}</td>
+
+                    <td>{{ pedido[2] }}</td>
+
+                    <td>{{ pedido[3] }}</td>
+
+                    <td>{{ pedido[4] }}</td>
+
+                    <td>{{ pedido[5] }}</td>
+
+                    <td>{{ pedido[6] }}</td>
+
+                    <td>${{ pedido[7] }}</td>
+
+                    <td>{{ pedido[8] }}</td>
+
+                    <td>{{ pedido[9] }}</td>
+
+                    <td>
+
+                        <form action="{{ url_for('actualizar_estado', id_pedido=pedido[0]) }}" method="POST">
+
+                            <select name="estado">
+
+                                <option value="pendiente" {% if pedido[8]=='pendiente' %}selected{% endif %}>
+                                    Pendiente
+                                </option>
+
+                                <option value="en preparación" {% if pedido[8]=='en preparación' %}selected{% endif %}>
+                                    En preparación
+                                </option>
+
+                                <option value="listo" {% if pedido[8]=='listo' %}selected{% endif %}>
+                                    Listo
+                                </option>
+
+                                <option value="entregado" {% if pedido[8]=='entregado' %}selected{% endif %}>
+                                    Entregado
+                                </option>
+
+                                <option value="cancelado" {% if pedido[8]=='cancelado' %}selected{% endif %}>
+                                    Cancelado
+                                </option>
+
+                            </select>
+
+                            <br><br>
+
+                            <button type="submit">
+                                Guardar
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                    <td>
+
+                        <a class="detalle"
+                           href="{{ url_for('detalle_pedido', id_pedido=pedido[0]) }}">
+
+                            Ver detalle
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </main>
+
 </div>
 
 </body>
+
 </html>
