@@ -1503,3 +1503,213 @@ td{
     text-align:center;
     border-bottom:1px solid #f0d3dc;
 }
+/* ===========================
+   PANEL DE ADMINISTRACIÓN
+=========================== */
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#fff5f7;
+}
+
+.contenedor-admin{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ========= MENÚ ========= */
+
+.sidebar{
+    width:260px;
+    background:#d63384;
+    color:white;
+    padding:30px 20px;
+    position:fixed;
+    height:100%;
+    box-sizing:border-box;
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:14px;
+    margin:8px 0;
+    border-radius:12px;
+    transition:.3s;
+    font-weight:bold;
+}
+
+.sidebar a:hover{
+    background:#f8c8dc;
+    color:#d63384;
+}
+
+.sidebar hr{
+    margin:25px 0;
+    border:none;
+    border-top:1px solid rgba(255,255,255,.4);
+}
+
+/* ========= CONTENIDO ========= */
+
+.contenido{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:40px;
+    box-sizing:border-box;
+}
+
+.encabezado-admin{
+    margin-bottom:35px;
+}
+
+.encabezado-admin h1{
+    color:#d63384;
+    margin-bottom:5px;
+}
+
+.encabezado-admin p{
+    color:#666;
+}
+
+/* ========= TARJETAS ========= */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+    margin-bottom:35px;
+}
+
+.card-dashboard{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.card-dashboard h3{
+    color:#d63384;
+    margin-bottom:18px;
+}
+
+.card-dashboard span{
+    font-size:34px;
+    font-weight:bold;
+}
+
+/* ========= BOTONES ========= */
+
+.acciones-rapidas{
+    display:flex;
+    gap:20px;
+    margin-bottom:35px;
+}
+
+.btn-verde{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:14px 24px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.btn-verde:hover{
+    transform:translateY(-2px);
+}
+
+.btn-rojo{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:14px 24px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.btn-rojo:hover{
+    transform:translateY(-2px);
+}
+
+/* ========= TABLA ========= */
+
+.titulo-tabla{
+    color:#d63384;
+    margin-bottom:15px;
+}
+
+.tabla-admin{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.tabla-admin table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.tabla-admin th{
+    background:#d63384;
+    color:white;
+    padding:15px;
+}
+
+.tabla-admin td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+    text-align:center;
+}
+
+.tabla-admin tr:hover{
+    background:#fff0f6;
+}
+
+/* ========= FORMULARIOS ========= */
+
+select{
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+}
+
+form button{
+    background:#d63384;
+    color:white;
+    padding:8px 14px;
+    border-radius:8px;
+}
+
+form button:hover{
+    background:#b82d70;
+}
+
+.detalle{
+    background:#17a2b8;
+    color:white;
+    padding:8px 12px;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+.detalle:hover{
+    background:#138496;
+}
