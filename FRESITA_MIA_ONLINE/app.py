@@ -56,9 +56,9 @@ def inicio():
 def menu():
     cursor = mysql.connection.cursor()
     cursor.execute("""
-        SELECT * FROM productos
-        WHERE estado = 'disponible'
-        ORDER BY nombre
+        SELECT * 
+          FROM productos
+          WHERE disponible = 1
     """)
     productos = cursor.fetchall()
     cursor.close()
