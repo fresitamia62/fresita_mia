@@ -1,76 +1,143 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
     <meta charset="UTF-8">
+
     <title>Detalle del Pedido</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
 </head>
-<body>
 
-    <h1>Detalle del pedido #{{ id_pedido }} 🍓</h1>
+<body class="detalle-body">
 
-    <h3>Datos del cliente</h3>
+<div class="detalle-contenedor">
 
-    <p><strong>Cliente:</strong> {{ pedido[0] }}</p>
-    <p><strong>Teléfono:</strong> {{ pedido[1] }}</p>
-    <p><strong>Dirección:</strong> {{ pedido[2] }}</p>
-    <p><strong>Método de pago:</strong> {{ pedido[3] }}</p>
-    <p><strong>Total:</strong> ${{ pedido[4] }}</p>
-    <p><strong>Estado:</strong> {{ pedido[5] }}</p>
+    <div class="detalle-header">
 
-    <h3>Productos pedidos</h3>
+        <h1>🍓 Detalle del Pedido #{{ id_pedido }}</h1>
+
+        <a href="/admin" class="btn-regresar">
+            ⬅ Volver al panel
+        </a>
+
+    </div>
+
+    <div class="info-cliente">
+
+        <div class="info-card">
+            <h3>👤 Cliente</h3>
+            <p>{{ pedido[0] }}</p>
+        </div>
+
+        <div class="info-card">
+            <h3>📞 Teléfono</h3>
+            <p>{{ pedido[1] }}</p>
+        </div>
+
+        <div class="info-card">
+            <h3>📍 Dirección</h3>
+            <p>{{ pedido[2] }}</p>
+        </div>
+
+        <div class="info-card">
+            <h3>💳 Pago</h3>
+            <p>{{ pedido[3] }}</p>
+        </div>
+
+        <div class="info-card">
+            <h3>💰 Total</h3>
+            <p><strong>${{ pedido[4] }}</strong></p>
+        </div>
+
+        <div class="info-card">
+            <h3>📦 Estado</h3>
+
+            <span class="
+            {% if pedido[5]=='pendiente' %}
+                estado pendiente
+            {% elif pedido[5]=='en preparación' %}
+                estado preparacion
+            {% elif pedido[5]=='listo' %}
+                estado listo
+            {% elif pedido[5]=='entregado' %}
+                estado entregado
+            {% else %}
+                estado cancelado
+            {% endif %}
+            ">
+
+            {{ pedido[5] }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <h2 class="titulo-productos">
+        🛒 Productos del pedido
+    </h2>
 
     {% for producto in productos %}
-        <div class="card-producto">
-            <h3>{{ producto[0] }}</h3>
 
-            <p><strong>Cantidad:</strong> {{ producto[1] }}</p>
-            <p><strong>Precio base:</strong> ${{ producto[2] }}</p>
+    <div class="producto-detalle">
+
+        <h2>🍓 {{ producto[0] }}</h2>
+
+        <div class="producto-grid">
+
+            <div><strong>Cantidad</strong><br>{{ producto[1] }}</div>
+
+            <div><strong>Precio base</strong><br>${{ producto[2] }}</div>
+
+            <div><strong>Subtotal</strong><br>${{ producto[3] }}</div>
 
             {% if producto[4] and producto[4] != 'No aplica' %}
-                <p><strong>Tamaño:</strong> {{ producto[4] }}</p>
+            <div><strong>Tamaño</strong><br>{{ producto[4] }}</div>
             {% endif %}
 
             {% if producto[5] %}
-                <p><strong>Toppings:</strong> {{ producto[5] }}</p>
+            <div><strong>Toppings</strong><br>{{ producto[5] }}</div>
             {% endif %}
 
             {% if producto[6] %}
-                <p><strong>Jarabes:</strong> {{ producto[6] }}</p>
+            <div><strong>Jarabes</strong><br>{{ producto[6] }}</div>
             {% endif %}
 
             {% if producto[7] %}
-                <p><strong>Extras:</strong> {{ producto[7] }}</p>
+            <div><strong>Extras</strong><br>{{ producto[7] }}</div>
             {% endif %}
 
             {% if producto[8] %}
-                <p><strong>Precio extras:</strong> ${{ producto[8] }}</p>
+            <div><strong>Precio Extras</strong><br>${{ producto[8] }}</div>
             {% endif %}
 
             {% if producto[9] and producto[9] != 'No aplica' %}
-                <p><strong>Comentarios:</strong> {{ producto[9] }}</p>
+            <div><strong>Comentarios</strong><br>{{ producto[9] }}</div>
             {% endif %}
 
             {% if producto[10] and producto[10] != 'No aplica' %}
-                <p><strong>Pastel:</strong> {{ producto[10] }}</p>
+            <div><strong>Pastel</strong><br>{{ producto[10] }}</div>
             {% endif %}
 
             {% if producto[11] %}
-                <p><strong>Frutas:</strong> {{ producto[11] }}</p>
+            <div><strong>Frutas</strong><br>{{ producto[11] }}</div>
             {% endif %}
 
             {% if producto[12] and producto[12] != 'No aplica' %}
-                <p><strong>Base:</strong> {{ producto[12] }}</p>
+            <div><strong>Base</strong><br>{{ producto[12] }}</div>
             {% endif %}
 
-            <p><strong>Subtotal:</strong> ${{ producto[3] }}</p>
         </div>
 
-        <hr>
+    </div>
+
     {% endfor %}
 
-    <br>
-
-    <a href="/admin">Volver al panel</a>
+</div>
 
 </body>
+
 </html>
