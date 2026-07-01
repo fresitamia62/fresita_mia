@@ -650,6 +650,25 @@ def consultar_pedido():
         cursor.close()
 
     return render_template("consultar_pedido.html", pedido=pedido)
+@app.route("/admin/productos")
+def admin_productos():
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM productos
+        ORDER BY categoria, nombre
+    """)
+
+    productos = cursor.fetchall()
+
+    cursor.close()
+
+    return render_template(
+        "admin_productos.html",
+        productos=productos
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
