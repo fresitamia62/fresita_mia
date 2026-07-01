@@ -1901,3 +1901,120 @@ DETALLE PEDIDO
     padding:15px;
 
 }
+/*==========================
+PRODUCTOS
+==========================*/
+
+.productos-admin{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+
+    gap:30px;
+
+}
+
+.producto-admin-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.producto-admin-card img{
+
+    width:170px;
+
+    height:170px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+
+    margin-bottom:15px;
+
+}
+
+.producto-admin-card h2{
+
+    color:#d63384;
+
+}
+
+.producto-admin-card p{
+
+    color:#666;
+
+    min-height:50px;
+
+}
+
+.producto-admin-card h3{
+
+    font-size:28px;
+
+    color:#d63384;
+
+}
+
+.disponible{
+
+    background:#d4edda;
+
+    color:#155724;
+
+    padding:8px 16px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+}
+
+.agotado{
+
+    background:#f8d7da;
+
+    color:#721c24;
+
+    padding:8px 16px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+}
+
+.editar-btn{
+
+    width:100%;
+
+    background:#d63384;
+
+    color:white;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+.editar-btn:hover{
+
+    background:#b82d70;
+
+}
