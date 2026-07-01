@@ -1564,6 +1564,7 @@ body{
     width:calc(100% - 260px);
     padding:40px;
     box-sizing:border-box;
+    overflow-x:auto;
 }
 
 .encabezado-admin{
@@ -1653,15 +1654,17 @@ body{
 .tabla-admin{
     background:white;
     border-radius:18px;
-    overflow:hidden;
     box-shadow:0 8px 20px rgba(0,0,0,.08);
+    overflow-x:auto;
+    overflow-y:hidden;
+    width:100%;
 }
 
 .tabla-admin table{
+    min-width:1400px;
     width:100%;
     border-collapse:collapse;
 }
-
 .tabla-admin th{
     background:#d63384;
     color:white;
