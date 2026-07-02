@@ -55,34 +55,31 @@ def inicio():
 @app.route("/menu")
 def menu():
     cursor = mysql.connection.cursor()
+
     cursor.execute("""
-        SELECT * 
-          FROM productos
-          WHERE disponible = 1
+        SELECT *
+        FROM productos
+        WHERE disponible = 1
     """)
     productos = cursor.fetchall()
-    cursor.close()
 
     orden_categorias = [
-    "Fresas con crema",
-    "Rebanafresa",
-    "Mini Hotcakes",
-    "Fresas Combinadas",
-    "Mega Antojo",
-    "Antojos",
-    "Pasteles"
-]
+        "Fresas con crema",
+        "Rebanafresa",
+        "Mini Hotcakes",
+        "Fresas Combinadas",
+        "Mega Antojo",
+        "Antojos",
+        "Pasteles"
+    ]
 
-    cursor.execute("SELECT * FROM productos WHERE disponible = 1")
-productos = cursor.fetchall()
+    productos_por_categoria = {}
 
-  productos_por_categoria = {}
-
-    # Primero agrega las categorías principales
+    # Crear las categorías principales
     for categoria in orden_categorias:
         productos_por_categoria[categoria] = []
 
-    # Después acomoda cada producto en su categoría
+    # Agregar los productos a su categoría
     for producto in productos:
         categoria = producto[6]
 
@@ -91,13 +88,19 @@ productos = cursor.fetchall()
 
         productos_por_categoria[categoria].append(producto)
 
-    # Elimina categorías vacías
+    # Eliminar categorías vacías
     productos_por_categoria = {
         categoria: lista
         for categoria, lista in productos_por_categoria.items()
         if lista
     }
-    return render_template("menu.html", productos_por_categoria=productos_por_categoria)
+
+    cursor.close()
+
+    return render_template(
+        "menu.html",
+        productos_por_categoria=productos_por_categoria
+    )
 
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
