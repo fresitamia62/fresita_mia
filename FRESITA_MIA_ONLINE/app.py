@@ -59,7 +59,7 @@ def menu():
     cursor.execute("""
         SELECT *
         FROM productos
-        WHERE disponible = 1
+        WHERE estado = 'disponible'
     """)
     productos = cursor.fetchall()
 
@@ -75,11 +75,11 @@ def menu():
 
     productos_por_categoria = {}
 
-    # Crear las categorías principales
+    # Crear categorías
     for categoria in orden_categorias:
         productos_por_categoria[categoria] = []
 
-    # Agregar los productos a su categoría
+    # Agregar productos
     for producto in productos:
         categoria = producto[6]
 
@@ -101,7 +101,7 @@ def menu():
         "menu.html",
         productos_por_categoria=productos_por_categoria
     )
-
+    
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
     if request.method == "POST":
@@ -572,7 +572,10 @@ def personalizar_producto(id_producto):
     cursor = mysql.connection.cursor()
 
     # Obtener producto UNA sola vez
-    cursor.execute("SELECT * FROM productos WHERE id_producto = %s AND disponible = 1", (id_producto,))
+    cursor.execute(
+        "SELECT * FROM productos WHERE id_producto = %s AND estado = 'disponible'",
+        (id_producto,)
+    )
     producto = cursor.fetchone()
 
     if not producto:
@@ -606,7 +609,7 @@ def personalizar_producto(id_producto):
         id_carrito, id_usuario, invitado_id = obtener_carrito(cursor)
 
         cursor.execute("""
-            INSERT INTO detalle_carrito 
+            INSERT INTO detalle_carrito
             (id_carrito, id_producto, cantidad, tamano, toppings, jarabes, extras, precio_extras, comentarios, pastel, frutas, base_preparado)
             VALUES (%s, %s, 1, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (
@@ -630,6 +633,7 @@ def personalizar_producto(id_producto):
 
     cursor.close()
     return render_template("personalizar_producto.html", producto=producto)
+    
 @app.route("/consultar_pedido", methods=["GET", "POST"])
 def consultar_pedido():
     pedido = None
