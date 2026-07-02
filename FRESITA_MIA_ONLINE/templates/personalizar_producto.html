@@ -159,38 +159,28 @@
             <p><strong>Base incluida:</strong> Crema</p>
         {% else %}
             <input type="hidden" name="base_preparado" value="No aplica">
-        {% endif %}
+        
+    {% if producto[1] in ["Rebanafresa", "Fresas con Pastel"] %}
 
-        {% if producto[11] == 1 %}
-            <h3>Elige pastel</h3>
+    <option value="Cheesecake Chispas">Cheesecake Chispas</option>
+    <option value="Cheesecake Zarzamora">Cheesecake Zarzamora</option>
+    <option value="Chocoflan">Chocoflan</option>
+    <option value="Pay de Limón">Pay de Limón</option>
+    <option value="Pay Natural">Pay Natural</option>
 
-            <select name="pastel" required>
-                {% if producto[8] == 'fresas_con_pastel' %}
-                    <option value="Cheesecake Chispas">Cheesecake Chispas</option>
-                    <option value="Cheesecake Zarzamora">Cheesecake Zarzamora</option>
-                    <option value="Chocoflan">Chocoflan</option>
-                    <option value="Pay de Limón">Pay de Limón</option>
-                    <option value="Pay Natural">Pay Natural</option>
+{% elif producto[1] in ["Rebanafresa Especial", "Fresas con Pastel Especial"] %}
 
-                {% elif producto[8] == 'fresas_con_pastel_especial' %}
-                    <option value="Red Velvet">Red Velvet</option>
-                    <option value="Turín Crepas">Turín Crepas</option>
-                    <option value="Coco">Coco</option>
-                    <option value="Zanahoria">Zanahoria</option>
-                    <option value="Hennessy Crepas">Hennessy Crepas</option>
+    <option value="Red Velvet">Red Velvet</option>
+    <option value="Turín Crepas">Turín Crepas</option>
+    <option value="Coco">Coco</option>
+    <option value="Zanahoria">Zanahoria</option>
+    <option value="Hennessy Crepas">Hennessy Crepas</option>
 
-                {% else %}
-                    <option value="Cheesecake Chispas">Cheesecake Chispas</option>
-                    <option value="Cheesecake Zarzamora">Cheesecake Zarzamora</option>
-                    <option value="Pingüino">Pingüino</option>
-                    <option value="Chocoflan">Chocoflan</option>
-                    <option value="Turín Crepas">Turín Crepas</option>
-                    <option value="Hennessy Crepas">Hennessy Crepas</option>
-                    <option value="Red Velvet">Red Velvet</option>
-                    <option value="Coco">Coco</option>
-                    <option value="Pay de Limón">Pay de Limón</option>
-                    <option value="Matilda">Matilda</option>
-                {% endif %}
+{% else %}
+
+    <!-- Aquí van los demás productos que sí usan todos los pasteles -->
+
+{% endif %}
             </select>
         {% else %}
             <input type="hidden" name="pastel" value="No aplica">
