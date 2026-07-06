@@ -699,25 +699,5 @@ def editar_producto(id_producto):
         producto=producto
     )
 
-@app.route("/admin/productos/editar/<int:id_producto>")
-def editar_producto(id_producto):
-
-    cursor = mysql.connection.cursor()
-
-    cursor.execute("""
-        SELECT *
-        FROM productos
-        WHERE id_producto = %s
-    """, (id_producto,))
-
-    producto = cursor.fetchone()
-
-    cursor.close()
-
-    return render_template(
-        "editar_producto.html",
-        producto=producto
-    )
-
 if __name__ == "__main__":
     app.run(debug=True)
