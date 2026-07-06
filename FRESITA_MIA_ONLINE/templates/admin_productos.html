@@ -55,9 +55,12 @@
 
             <br><br>
 
-            <button class="editar-btn">
-                ✏ Editar
-            </button>
+            <a href="{{ url_for('editar_producto', id_producto=producto[0]) }}"
+               class="editar-btn">
+
+                  ✏ Editar
+
+         </a>
 
         </div>
 
