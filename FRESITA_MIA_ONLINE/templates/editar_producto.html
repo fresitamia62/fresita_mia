@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
     <title>Editar Producto</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
-
 </head>
 
 <body class="detalle-body">
@@ -19,32 +14,29 @@
 
     <form>
 
-        <label>Nombre</label>
-
-        <input
-            type="text"
-            value="{{ producto[1] }}"
-        >
+        <label>Nombre</label><br>
+        <input type="text" value="{{ producto[1] }}" readonly>
 
         <br><br>
 
-        <label>Descripción</label>
-
-        <textarea>{{ producto[2] }}</textarea>
-
-        <br><br>
-
-        <label>Precio</label>
-
-        <input
-            type="number"
-            value="{{ producto[3] }}"
-        >
+        <label>Descripción</label><br>
+        <textarea rows="4" readonly>{{ producto[2] }}</textarea>
 
         <br><br>
 
-        <a href="{{ url_for('admin_productos') }}">
-            Cancelar
+        <label>Precio</label><br>
+        <input type="number" value="{{ producto[3] }}" readonly>
+
+        <br><br>
+
+        <img
+            src="{{ url_for('static', filename='Imagenes/' + producto[4]) }}"
+            width="180">
+
+        <br><br>
+
+        <a href="{{ url_for('admin_productos') }}" class="btn-regresar">
+            ⬅ Volver
         </a>
 
     </form>
@@ -52,5 +44,4 @@
 </div>
 
 </body>
-
 </html>
