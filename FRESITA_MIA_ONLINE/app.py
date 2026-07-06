@@ -1,9 +1,11 @@
 from flask import Flask, render_template, redirect, url_for, session, request
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 import uuid
 import os
 app = Flask(__name__, static_folder="static")
+app.config["UPLOAD_FOLDER"] = "static/Imagenes"
 app.secret_key = "fresita_mia_secreta"
 
 app.config["MYSQL_HOST"] = os.environ.get("MYSQLHOST")
@@ -671,6 +673,30 @@ def admin_productos():
     return render_template(
         "admin_productos.html",
         productos=productos
+    )
+
+@app.route("/admin/productos/editar/<int:id_producto>")
+def editar_producto(id_producto):
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM productos
+        WHERE id_producto = %s
+    """, (id_producto,))
+
+    producto = cursor.fetchone()
+
+    cursor.close()
+
+    if not producto:
+        flash("El producto no existe.", "error")
+        return redirect(url_for("admin_productos"))
+
+    return render_template(
+        "editar_producto.html",
+        producto=producto
     )
 
 @app.route("/admin/productos/editar/<int:id_producto>")
