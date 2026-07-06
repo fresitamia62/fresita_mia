@@ -39,19 +39,19 @@
 
             <h3>${{ producto[3] }}</h3>
 
-            {% if producto[9] %}
+            {% if producto[5] == 'disponible' %}
 
-                <span class="disponible">
-                    🟢 Disponible
-                </span>
+    <span class="disponible">
+        🟢 Disponible
+    </span>
 
-            {% else %}
+{% else %}
 
-                <span class="agotado">
-                    🔴 Agotado
-                </span>
+    <span class="agotado">
+        🔴 Agotado
+    </span>
 
-            {% endif %}
+{% endif %}
 
             <br><br>
 
