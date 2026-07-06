@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Editar Producto</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+</head>
+
+<body class="detalle-body">
+
+<div class="detalle-contenedor">
+
+    <h1>✏ Editar Producto</h1>
+
+    <form>
+
+        <label>Nombre</label>
+
+        <input
+            type="text"
+            value="{{ producto[1] }}"
+        >
+
+        <br><br>
+
+        <label>Descripción</label>
+
+        <textarea>{{ producto[2] }}</textarea>
+
+        <br><br>
+
+        <label>Precio</label>
+
+        <input
+            type="number"
+            value="{{ producto[3] }}"
+        >
+
+        <br><br>
+
+        <a href="{{ url_for('admin_productos') }}">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
