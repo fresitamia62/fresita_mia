@@ -64,7 +64,25 @@
     </p>
 
 </div>
+<script>
 
+function mostrarTransferencia(){
+
+    let metodo = document.getElementById("metodo_pago").value;
+
+    let datos = document.getElementById("datos_transferencia");
+
+
+    if(metodo == "transferencia"){
+        datos.style.display = "block";
+    }
+    else{
+        datos.style.display = "none";
+    }
+
+}
+
+</script>
         <input type="hidden" id="total_productos" value="{{ total }}">
 
         <p><strong>Total productos:</strong> ${{ total }}</p>
