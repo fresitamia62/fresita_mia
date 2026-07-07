@@ -43,11 +43,27 @@
 
         <textarea name="direccion" placeholder="Dirección de entrega o referencia" required></textarea>
 
-        <select name="metodo_pago" required>
-            <option value="">Selecciona método de pago</option>
-            <option value="efectivo">Efectivo</option>
-            <option value="transferencia">Transferencia</option>
-        </select>
+       <label>Método de pago:</label>
+
+<select name="metodo_pago" id="metodo_pago" onchange="mostrarTransferencia()">
+    <option value="efectivo">Efectivo</option>
+    <option value="transferencia">Transferencia bancaria</option>
+</select>
+
+
+<div id="datos_transferencia" style="display:none;">
+
+    <h3>Datos para transferencia</h3>
+
+    <p><b>Banco:</b> Mercado Pago </p>
+    <p><b>CLABE:</b> 722969020702046897</p>
+    <p><b>Titular:</b> Dulce Maria Medina Delgado</p>
+
+    <p>
+        Después de realizar el pago envía tu comprobante via Messenger.
+    </p>
+
+</div>
 
         <input type="hidden" id="total_productos" value="{{ total }}">
 
