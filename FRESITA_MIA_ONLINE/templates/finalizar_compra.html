@@ -60,6 +60,7 @@ function calcularEnvio() {
         <input type="text" name="telefono" placeholder="Teléfono" required>
 
         <select name="tipo_entrega" id="tipo_entrega" onchange="calcularEnvio()" required>
+            <option value="Recoger en local" data-costo="0">Recoger en local ($0)</option>
             <option value="Zona Centro" data-costo="15">Zona Centro ($15)</option>
             <option value="Fraccionamientos" data-costo="15">Fraccionamientos ($15)</option>
             <option value="Deportiva, Independencia, Planetaria" data-costo="15">Deportiva, Independencia, Planetaria ($15)</option>
