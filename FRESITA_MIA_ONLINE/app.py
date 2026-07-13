@@ -366,7 +366,7 @@ def finalizar_compra():
             costo_envio = 15
         elif tipo_entrega == "Deportiva, Independencia, Planetaria":
             costo_envio = 15
-        elif tipo_entrega == "Revolución, San Juanita, San José":
+        elif tipo_entrega == "Las Flores, Revolución, San Juanita, San José":
             costo_envio = 20
         elif tipo_entrega == "Praderas":
             costo_envio = 30
