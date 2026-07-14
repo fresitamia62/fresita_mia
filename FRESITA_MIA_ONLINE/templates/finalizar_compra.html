@@ -34,15 +34,22 @@ function calcularEnvio() {
     // Recoger en local
     if (zona.value === "Recoger en local") {
 
-        direccion.disabled = true;
+        // CORRECCIÓN: usar readOnly en lugar de disabled
+        direccion.readOnly = true;
         direccion.required = false;
-        direccion.value = "";
+        direccion.value = "Recoger en local";
         direccion.placeholder = "No es necesario capturar dirección";
 
     } else {
 
-        direccion.disabled = false;
+        direccion.readOnly = false;
         direccion.required = true;
+
+        // Solo limpia el texto si venía del valor automático
+        if (direccion.value === "Recoger en local") {
+            direccion.value = "";
+        }
+
         direccion.placeholder = "Dirección de entrega o referencia";
 
     }
@@ -57,6 +64,7 @@ function calcularEnvio() {
 
     <form method="POST">
         <input type="text" name="nombre" placeholder="Nombre completo" required>
+
         <input type="text" name="telefono" placeholder="Teléfono" required>
 
         <select name="tipo_entrega" id="tipo_entrega" onchange="calcularEnvio()" required>
@@ -69,41 +77,41 @@ function calcularEnvio() {
             <option value="Otros" data-costo="0">Otros, se cotiza</option>
         </select>
 
-       <textarea
-    id="direccion"
-    name="direccion"
-    placeholder="Dirección de entrega o referencia"
-    required
-></textarea>
-       <label>Método de pago:</label>
+        <textarea
+            id="direccion"
+            name="direccion"
+            placeholder="Dirección de entrega o referencia"
+            required
+        ></textarea>
 
-<select name="metodo_pago" id="metodo_pago" onchange="mostrarTransferencia()">
-    <option value="efectivo">Efectivo</option>
-    <option value="transferencia">Transferencia bancaria</option>
-</select>
+        <label>Método de pago:</label>
 
+        <select name="metodo_pago" id="metodo_pago" onchange="mostrarTransferencia()">
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia bancaria</option>
+        </select>
 
-<div id="datos_transferencia" style="display:none;">
+        <div id="datos_transferencia" style="display:none;">
 
-    <h3>Datos para transferencia</h3>
+            <h3>Datos para transferencia</h3>
 
-    <p><b>Banco:</b> Mercado Pago </p>
-    <p><b>CLABE:</b> 722969020702046897</p>
-    <p><b>Titular:</b> Dulce Maria Medina Delgado</p>
+            <p><b>Banco:</b> Mercado Pago</p>
+            <p><b>CLABE:</b> 722969020702046897</p>
+            <p><b>Titular:</b> Dulce Maria Medina Delgado</p>
 
-    <p>
-        Después de realizar el pago envía tu comprobante via Messenger.
-    </p>
+            <p>
+                Después de realizar el pago envía tu comprobante vía Messenger.
+            </p>
 
-</div>
-<script>
+        </div>
+
+        <script>
 
 function mostrarTransferencia(){
 
     let metodo = document.getElementById("metodo_pago").value;
 
     let datos = document.getElementById("datos_transferencia");
-
 
     if(metodo == "transferencia"){
         datos.style.display = "block";
@@ -114,16 +122,20 @@ function mostrarTransferencia(){
 
 }
 
-</script>
+        </script>
+
         <input type="hidden" id="total_productos" value="{{ total }}">
 
         <p><strong>Total productos:</strong> ${{ total }}</p>
+
         <p><strong>Costo de envío:</strong> $<span id="costo_envio_texto">0.00</span></p>
+
         <p id="nota_envio"></p>
 
         <h3>Total final: $<span id="total_final_texto">{{ total }}</span></h3>
 
         <button type="submit">Confirmar pedido</button>
+
     </form>
 
     <br>
@@ -131,6 +143,7 @@ function mostrarTransferencia(){
     <a href="{{ url_for('ver_carrito') }}">
         <button>Volver al carrito</button>
     </a>
+
 </section>
 
 <script>
