@@ -9,28 +9,62 @@
 <body class="detalle-body">
 
 <div class="detalle-contenedor">
+
     <h1>✏ Editar Producto</h1>
 
-    <form>
+    <form method="POST" enctype="multipart/form-data">
 
-        <label>Nombre</label><br>
-        <input type="text" value="{{ producto[1] }}" readonly>
+        <label for="nombre">Nombre</label><br>
+        <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            value="{{ producto[1] }}"
+            required>
+
+        <br><br>
+
+        <label for="descripcion">Descripción</label><br>
+        <textarea
+            id="descripcion"
+            name="descripcion"
+            rows="4"
+            required>{{ producto[2] }}</textarea>
 
         <br><br>
 
-        <label>Descripción</label><br>
-        <textarea rows="4" readonly>{{ producto[2] }}</textarea>
+        <label for="precio">Precio</label><br>
+        <input
+            type="number"
+            id="precio"
+            name="precio"
+            step="0.01"
+            value="{{ producto[3] }}"
+            required>
 
         <br><br>
 
-        <label>Precio</label><br>
-        <input type="number" value="{{ producto[3] }}" readonly>
-
-        <br><br>
+        <label>Imagen actual</label><br>
 
         <img
             src="{{ url_for('static', filename='Imagenes/' + producto[4]) }}"
             width="180">
+
+        <br><br>
+
+        <label for="imagen">Cambiar imagen (opcional)</label><br>
+
+        <input
+            type="file"
+            id="imagen"
+            name="imagen"
+            accept="image/*">
+
+        <br><br><br>
+
+        <button type="submit" class="btn-agregar">
+            💾 Guardar cambios
+        </button>
 
         <br><br>
 
