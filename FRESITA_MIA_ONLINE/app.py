@@ -675,15 +675,68 @@ def admin_productos():
         productos=productos
     )
 
-@app.route("/admin/productos/editar/<int:id_producto>")
+@app.route("/admin/productos/editar/<int:id_producto>", methods=["GET", "POST"])
 def editar_producto(id_producto):
 
     cursor = mysql.connection.cursor()
 
+    if request.method == "POST":
+
+        nombre = request.form["nombre"]
+        descripcion = request.form["descripcion"]
+        precio = request.form["precio"]
+
+        # Obtener nombre de la imagen actual
+        cursor.execute("""
+            SELECT imagen
+            FROM productos
+            WHERE id_producto=%s
+        """, (id_producto,))
+        imagen_actual = cursor.fetchone()[0]
+
+        imagen = request.files.get("imagen")
+
+        nombre_imagen = imagen_actual
+
+        if imagen and imagen.filename != "":
+            nombre_imagen = secure_filename(imagen.filename)
+
+            ruta = os.path.join(
+                app.root_path,
+                "static",
+                "Imagenes",
+                nombre_imagen
+            )
+
+            imagen.save(ruta)
+
+        cursor.execute("""
+            UPDATE productos
+            SET nombre=%s,
+                descripcion=%s,
+                precio=%s,
+                imagen=%s
+            WHERE id_producto=%s
+        """, (
+            nombre,
+            descripcion,
+            precio,
+            nombre_imagen,
+            id_producto
+        ))
+
+        mysql.connection.commit()
+
+        cursor.close()
+
+        flash("Producto actualizado correctamente.", "success")
+
+        return redirect(url_for("admin_productos"))
+
     cursor.execute("""
         SELECT *
         FROM productos
-        WHERE id_producto = %s
+        WHERE id_producto=%s
     """, (id_producto,))
 
     producto = cursor.fetchone()
