@@ -59,11 +59,22 @@ def menu():
     cursor = mysql.connection.cursor()
 
     cursor.execute("""
-        SELECT *
-        FROM productos
-        WHERE estado = 'disponible'
-        ORDER BY id_producto ASC
-    """)
+    SELECT *
+    FROM productos
+    WHERE estado = 'disponible'
+    ORDER BY 
+        CASE categoria
+            WHEN 'Fresas con crema' THEN 1
+            WHEN 'Rebanafresa' THEN 2
+            WHEN 'Mini Hotcakes' THEN 3
+            WHEN 'Fresas Combinadas' THEN 4
+            WHEN 'Mega Antojo' THEN 5
+            WHEN 'Antojos' THEN 6
+            WHEN 'Pasteles' THEN 7
+            ELSE 8
+        END,
+        id_producto ASC
+""")
     productos = cursor.fetchall()
 
     orden_categorias = [
