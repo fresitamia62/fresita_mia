@@ -62,6 +62,7 @@ def menu():
         SELECT *
         FROM productos
         WHERE estado = 'disponible'
+        ORDER BY id_producto ASC
     """)
     productos = cursor.fetchall()
 
@@ -77,11 +78,9 @@ def menu():
 
     productos_por_categoria = {}
 
-    # Crear categorías
     for categoria in orden_categorias:
         productos_por_categoria[categoria] = []
 
-    # Agregar productos
     for producto in productos:
         categoria = producto[6]
 
@@ -90,7 +89,6 @@ def menu():
 
         productos_por_categoria[categoria].append(producto)
 
-    # Eliminar categorías vacías
     productos_por_categoria = {
         categoria: lista
         for categoria, lista in productos_por_categoria.items()
