@@ -138,15 +138,17 @@
 
     <form method="POST" onsubmit="validarFormulario(event)">
 
-        {% if producto[7] == 1 %}
-            <h3>Tamaño</h3>
-            <select name="tamano" id="tamano" onchange="calcularTotal()" required>
-                <option value="Chico">Chico</option>
-                <option value="Grande">Grande (+$10)</option>
-            </select>
-        {% else %}
-            <input type="hidden" name="tamano" value="No aplica">
-        {% endif %}
+  {% if producto[6] == "Fresas con crema" %}
+    <h3>Tamaño</h3>
+
+    <select name="tamano" id="tamano" onchange="calcularTotal()" required>
+        <option value="Chico">Vaso Chico</option>
+        <option value="Grande">Vaso Grande (+$10)</option>
+    </select>
+
+{% else %}
+    <input type="hidden" name="tamano" value="No aplica">
+{% endif %}
 
   {% if producto[8] == 'antojo_preparado' %}
     <h3>Base</h3>
