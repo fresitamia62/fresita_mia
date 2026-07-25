@@ -599,8 +599,11 @@ def personalizar_producto(id_producto):
         comentarios = request.form.get("comentarios", "")
 
         # Reglas especiales
-        if nombre_producto == "Rebanafresa":
-            tamano = toppings = jarabes = extras = frutas = base_preparado = "No aplica"
+        if nombre_producto == "Rebanafresa": 
+            tamano = "No aplica"
+            extras = "No aplica"
+            frutas = "No aplica"
+            base_preparado = "No aplica"
             comentarios = "Pastel elegido: " + pastel
 
         elif nombre_producto == "Rebanafresa Especial":
