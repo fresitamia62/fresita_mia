@@ -857,6 +857,40 @@ def editar_producto(id_producto):
         "editar_producto.html",
         producto=producto
     )
+@app.route("/admin/productos/cambiar_estado/<int:id_producto>")
+def cambiar_estado_producto(id_producto):
 
+    if "rol" not in session or session["rol"] != "admin":
+        return redirect(url_for("login"))
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("""
+        SELECT estado
+        FROM productos
+        WHERE id_producto = %s
+    """, (id_producto,))
+
+    estado = cursor.fetchone()
+
+    if estado:
+
+        if estado[0] == "disponible":
+            nuevo_estado = "agotado"
+        else:
+            nuevo_estado = "disponible"
+
+        cursor.execute("""
+            UPDATE productos
+            SET estado = %s
+            WHERE id_producto = %s
+        """, (nuevo_estado, id_producto))
+
+        mysql.connection.commit()
+
+    cursor.close()
+
+    return redirect(url_for("admin_productos"))
+    
 if __name__ == "__main__":
     app.run(debug=True)
