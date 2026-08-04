@@ -19,9 +19,17 @@
 
         <h1>🍓 Administrar Productos</h1>
 
-        <a href="/admin" class="btn-regresar">
-            ⬅ Volver al Panel
-        </a>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+
+            <a href="{{ url_for('agregar_producto') }}" class="editar-btn">
+                ➕ Agregar Producto
+            </a>
+
+            <a href="/admin" class="btn-regresar">
+                ⬅ Volver al Panel
+            </a>
+
+        </div>
 
     </div>
 
@@ -41,26 +49,24 @@
 
             {% if producto[5] == 'disponible' %}
 
-    <span class="disponible">
-        🟢 Disponible
-    </span>
+                <span class="disponible">
+                    🟢 Disponible
+                </span>
 
-{% else %}
+            {% else %}
 
-    <span class="agotado">
-        🔴 Agotado
-    </span>
+                <span class="agotado">
+                    🔴 Agotado
+                </span>
 
-{% endif %}
+            {% endif %}
 
             <br><br>
 
             <a href="{{ url_for('editar_producto', id_producto=producto[0]) }}"
                class="editar-btn">
-
-                  ✏ Editar
-
-         </a>
+                ✏ Editar
+            </a>
 
         </div>
 
