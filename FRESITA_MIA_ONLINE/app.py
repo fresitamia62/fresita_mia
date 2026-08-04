@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import uuid
 import os
+import time
 app = Flask(__name__, static_folder="static")
 app.config["UPLOAD_FOLDER"] = "static/Imagenes"
 app.secret_key = "fresita_mia_secreta"
@@ -686,6 +687,99 @@ def admin_productos():
         "admin_productos.html",
         productos=productos
     )
+
+@app.route("/admin/productos/agregar", methods=["GET", "POST"])
+def agregar_producto():
+
+    if "rol" not in session or session["rol"] != "admin":
+        return redirect(url_for("login"))
+
+    cursor = mysql.connection.cursor()
+
+    if request.method == "POST":
+
+        nombre = request.form["nombre"]
+        descripcion = request.form["descripcion"]
+        precio = request.form["precio"]
+        categoria = request.form["categoria"]
+        estado = request.form["estado"]
+
+        permite_tamano = 1 if request.form.get("permite_tamano") else 0
+
+        tipo_personalizacion = request.form.get(
+            "tipo_personalizacion",
+            "ninguna"
+        )
+
+        toppings_incluidos = request.form.get("toppings_incluidos", 0)
+        jarabes_incluidos = request.form.get("jarabes_incluidos", 0)
+
+        permite_pastel = 1 if request.form.get("permite_pastel") else 0
+        permite_frutas = 1 if request.form.get("permite_frutas") else 0
+
+        imagen = request.files["imagen"]
+
+        nombre_imagen = ""
+
+        if imagen and imagen.filename != "":
+
+            extension = imagen.filename.rsplit(".",1)[1]
+
+            nombre_imagen = f"{int(time.time())}.{extension}"
+
+            ruta = os.path.join(
+                app.root_path,
+                "static",
+                "Imagenes",
+                nombre_imagen
+            )
+
+            imagen.save(ruta)
+
+        cursor.execute("""
+            INSERT INTO productos
+            (
+                nombre,
+                descripcion,
+                precio,
+                imagen,
+                estado,
+                categoria,
+                permite_tamano,
+                tipo_personalizacion,
+                toppings_incluidos,
+                jarabes_incluidos,
+                permite_pastel,
+                permite_frutas
+            )
+            VALUES
+            (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """,(
+            nombre,
+            descripcion,
+            precio,
+            nombre_imagen,
+            estado,
+            categoria,
+            permite_tamano,
+            tipo_personalizacion,
+            toppings_incluidos,
+            jarabes_incluidos,
+            permite_pastel,
+            permite_frutas
+        ))
+
+        mysql.connection.commit()
+
+        cursor.close()
+
+        flash("Producto agregado correctamente","success")
+
+        return redirect(url_for("admin_productos"))
+
+    cursor.close()
+
+    return render_template("agregar_producto.html")
 
 @app.route("/admin/productos/editar/<int:id_producto>", methods=["GET", "POST"])
 def editar_producto(id_producto):
