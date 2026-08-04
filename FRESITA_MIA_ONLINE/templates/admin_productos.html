@@ -15,17 +15,17 @@
 
 <div class="detalle-contenedor">
 
-    <div class="detalle-header">
+    <div class="admin-header">
 
         <h1>🍓 Administrar Productos</h1>
 
-        <div style="display:flex; gap:10px; margin-top:15px;">
+        <div class="acciones-superiores">
 
-            <a href="{{ url_for('agregar_producto') }}" class="editar-btn">
+            <a href="{{ url_for('agregar_producto') }}" class="btn-agregar">
                 ➕ Agregar Producto
             </a>
 
-            <a href="/admin" class="btn-regresar">
+            <a href="/admin" class="btn-volver">
                 ⬅ Volver al Panel
             </a>
 
@@ -39,7 +39,8 @@
 
         <div class="producto-admin-card">
 
-            <img src="{{ url_for('static', filename='Imagenes/' + producto[4]) }}">
+            <img class="producto-admin-img"
+                 src="{{ url_for('static', filename='Imagenes/' + producto[4]) }}">
 
             <h2>{{ producto[1] }}</h2>
 
@@ -49,50 +50,50 @@
 
             {% if producto[5] == 'disponible' %}
 
-                <span class="disponible">
+                <span class="estado disponible">
                     🟢 Disponible
                 </span>
 
             {% else %}
 
-                <span class="agotado">
+                <span class="estado agotado">
                     🔴 Agotado
                 </span>
 
             {% endif %}
 
-            <br><br>
+            <div class="botones-admin">
 
-           <div style="margin-top:15px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                <a href="{{ url_for('editar_producto', id_producto=producto[0]) }}"
+                   class="btn-editar">
 
-    <a href="{{ url_for('editar_producto', id_producto=producto[0]) }}"
-       class="editar-btn">
-        ✏ Editar
-    </a>
+                    ✏ Editar
 
-    {% if producto[5] == "disponible" %}
+                </a>
 
-        <a href="{{ url_for('cambiar_estado_producto', id_producto=producto[0]) }}"
-           class="btn-regresar"
-           onclick="return confirm('¿Marcar este producto como AGOTADO?')">
+                {% if producto[5] == 'disponible' %}
 
-            🔴 Agotar
+                <a href="{{ url_for('cambiar_estado_producto', id_producto=producto[0]) }}"
+                   class="btn-agotar"
+                   onclick="return confirm('¿Marcar este producto como agotado?')">
 
-        </a>
+                    🔴 Agotar
 
-    {% else %}
+                </a>
 
-        <a href="{{ url_for('cambiar_estado_producto', id_producto=producto[0]) }}"
-           class="editar-btn"
-           onclick="return confirm('¿Volver a poner este producto DISPONIBLE?')">
+                {% else %}
 
-            🟢 Activar
+                <a href="{{ url_for('cambiar_estado_producto', id_producto=producto[0]) }}"
+                   class="btn-activar"
+                   onclick="return confirm('¿Activar nuevamente este producto?')">
 
-        </a>
+                    🟢 Activar
 
-    {% endif %}
+                </a>
 
-</div>
+                {% endif %}
+
+            </div>
 
         </div>
 
