@@ -2018,3 +2018,223 @@ PRODUCTOS
     background:#b82d70;
 
 }
+
+/*======================
+ PANEL PRODUCTOS ADMIN
+=======================*/
+
+.admin-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:35px;
+}
+
+.acciones-superiores{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn-agregar,
+.btn-volver{
+
+    text-decoration:none;
+    color:white;
+    padding:14px 24px;
+    border-radius:12px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-agregar{
+    background:#e62e86;
+}
+
+.btn-volver{
+    background:#d63384;
+}
+
+.btn-agregar:hover,
+.btn-volver:hover{
+
+    transform:translateY(-2px);
+}
+
+.productos-admin{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+
+    gap:30px;
+
+}
+
+.producto-admin-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.10);
+
+    transition:.35s;
+}
+
+.producto-admin-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 35px rgba(0,0,0,.18);
+
+}
+
+.producto-admin-img{
+
+    width:170px;
+
+    height:170px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+
+    margin-bottom:20px;
+
+}
+
+.producto-admin-card h2{
+
+    color:#e62e86;
+
+    margin-bottom:10px;
+
+}
+
+.producto-admin-card p{
+
+    color:#555;
+
+    min-height:55px;
+
+}
+
+.producto-admin-card h3{
+
+    color:#e62e86;
+
+    font-size:34px;
+
+    margin:20px 0;
+
+}
+
+.estado{
+
+    display:inline-block;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    font-weight:bold;
+
+    margin-bottom:25px;
+
+}
+
+.disponible{
+
+    background:#d4f7dc;
+
+    color:#1d7d3d;
+
+}
+
+.agotado{
+
+    background:#ffd7dc;
+
+    color:#b4233d;
+
+}
+
+.botones-admin{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.botones-admin a{
+
+    flex:1;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:bold;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+}
+
+.btn-editar{
+
+    background:#e62e86;
+
+}
+
+.btn-agotar{
+
+    background:#dc3545;
+
+}
+
+.btn-activar{
+
+    background:#28a745;
+
+}
+
+.botones-admin a:hover{
+
+    transform:scale(1.04);
+
+}
+
+@media(max-width:768px){
+
+.admin-header{
+
+    justify-content:center;
+
+    text-align:center;
+
+}
+
+.acciones-superiores{
+
+    justify-content:center;
+
+}
+
+.botones-admin{
+
+    flex-direction:column;
+
+}
+
+}
