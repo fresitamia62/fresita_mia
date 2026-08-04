@@ -63,10 +63,36 @@
 
             <br><br>
 
-            <a href="{{ url_for('editar_producto', id_producto=producto[0]) }}"
-               class="editar-btn">
-                ✏ Editar
-            </a>
+           <div style="margin-top:15px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+
+    <a href="{{ url_for('editar_producto', id_producto=producto[0]) }}"
+       class="editar-btn">
+        ✏ Editar
+    </a>
+
+    {% if producto[5] == "disponible" %}
+
+        <a href="{{ url_for('cambiar_estado_producto', id_producto=producto[0]) }}"
+           class="btn-regresar"
+           onclick="return confirm('¿Marcar este producto como AGOTADO?')">
+
+            🔴 Agotar
+
+        </a>
+
+    {% else %}
+
+        <a href="{{ url_for('cambiar_estado_producto', id_producto=producto[0]) }}"
+           class="editar-btn"
+           onclick="return confirm('¿Volver a poner este producto DISPONIBLE?')">
+
+            🟢 Activar
+
+        </a>
+
+    {% endif %}
+
+</div>
 
         </div>
 
