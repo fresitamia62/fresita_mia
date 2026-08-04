@@ -39,8 +39,11 @@
 
         <div class="producto-admin-card">
 
-            <img class="producto-admin-img"
-                 src="{{ url_for('static', filename='Imagenes/' + producto[4]) }}">
+            <img
+                class="producto-admin-img"
+                src="{{ url_for('static', filename='Imagenes/' + producto[4]) }}"
+                alt="{{ producto[1] }}"
+                onerror="this.onerror=null; this.src='{{ url_for('static', filename='Imagenes/FRESITA_MIA_LOGO.png') }}';">
 
             <h2>{{ producto[1] }}</h2>
 
